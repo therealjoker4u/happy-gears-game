@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour
     public static List<string> lockedGears ;
     public static float sourceRotationSpeed;
     public static bool canDrag;
+    public Material _unexpectedMaterial;
+    public static Material unexpectedMaterial ;
 
     private void Start()
     {
@@ -46,6 +48,11 @@ public class GameController : MonoBehaviour
 
         }
         UpdateActions();
+
+        if(unexpectedMaterial == null)
+        {
+            unexpectedMaterial = _unexpectedMaterial;
+        }
 
     }
 
@@ -112,7 +119,6 @@ public class GameController : MonoBehaviour
         GearDirection previousDir = GearDirection.Static;
         float rotationSpeed = 0;
 
-
         foreach(GearAction gearAction in actions)
         {
             GearDirection currentDir = GearDirection.Static;
@@ -124,11 +130,16 @@ public class GameController : MonoBehaviour
 
             if(previousDir != GearDirection.Static && currentDir != GearDirection.Static && currentDir != previousDir)
             {
+
                 if(!lockedGears.Contains(gearAction.gameObject.name))
+                {
                     lockedGears.Add(gearAction.gameObject.name);
+                }
 
                 if (!lockedGears.Contains(gearName))
+                {
                     lockedGears.Add(gearName);
+                }
             }
             else
             {
@@ -141,10 +152,10 @@ public class GameController : MonoBehaviour
                 {
                     rotationSpeed = gearAction.rotationSpeed * -1;
                 }
+
             }
 
         }
-
         if (gearActions[gearName].isSource)
         {
             rotationSpeed = sourceRotationSpeed;
@@ -158,16 +169,18 @@ public class GameController : MonoBehaviour
 
     public static void UpdateActions()
     {
-        lockedGears = new List<string>();
+        
         bool allGearsAreRotating = true;
 
         foreach(string gearName in gearActions.Keys)
         {
             GearAction action = gearActions[gearName];
+            lockedGears = new List<string>();
 
             if (GearCanRotate(gearName, out float rotationSpeed))
             {
                 action.rotationSpeed = rotationSpeed;
+
             }
             else
             {
@@ -175,8 +188,31 @@ public class GameController : MonoBehaviour
                 allGearsAreRotating = false;
             }
 
+            if (lockedGears.Contains(gearName) && !action.isLocked)
+            {
+                allGearsAreRotating = false;
+                action.isLocked = true;
+                action.ChangeMaterialToUnexpected();
+            }
+            else if(!lockedGears.Contains(gearName) && action.isLocked)
+            {
+                allGearsAreRotating = false;
+                action.isLocked = false;
+                action.ChangeMaterialToNormal();
+            }
+
+
         }
-        if (allGearsAreRotating && canDrag)
+
+        if(lockedGears.Count > 0)
+        {
+            print(lockedGears);
+            foreach (string gearName in gearActions.Keys)
+            {
+                GearAction action = gearActions[gearName];
+                action.rotationSpeed = 0;
+            }
+        }else if(allGearsAreRotating && canDrag)
         {
             PlayerWon();
         }
@@ -189,7 +225,6 @@ public class GameController : MonoBehaviour
         if(!isConnected(firstGearName , secondGearName))
         {
             relationships.Add(new Relationship() { first = firstGearName, second = secondGearName });
-            //UpdateActions();
         }
     }
 

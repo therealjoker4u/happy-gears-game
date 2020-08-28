@@ -16,6 +16,8 @@ public class GearAction : MonoBehaviour
     private Rigidbody rigidBody;
     private Quaternion stopRotation;
     private bool canEmitCollision = true;
+    private Material mainMaterial;
+    private MeshRenderer renderer;
 
     void Start()
     {
@@ -26,6 +28,10 @@ public class GearAction : MonoBehaviour
 
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+
+        renderer = GetComponent<MeshRenderer>();
+        mainMaterial = renderer.materials[0];
+
     }
 
     private void OnMouseDown()
@@ -80,21 +86,12 @@ public class GearAction : MonoBehaviour
         return newPos;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        /*if(!isDragging && collision.gameObject.tag == "Gear")
-        {
-            GameController.ConnectGears(gameObject.name, collision.gameObject.name);
-            //print($"{gameObject.name} => {collision.gameObject.name}");
-        }*/
-    }
 
     private void OnCollisionStay(Collision collision)
     {
         if (canEmitCollision && !isDragging && collision.gameObject.tag == "Gear")
         {
             GameController.ConnectGears(gameObject.name, collision.gameObject.name);
-            //print($"{gameObject.name} => {collision.gameObject.name}");
         }
     }
 
@@ -103,8 +100,17 @@ public class GearAction : MonoBehaviour
         if (collision.gameObject.tag == "Gear")
         {
             GameController.DisconnectGears(gameObject.name, collision.gameObject.name);
-            //print($"{gameObject.name} x {collision.gameObject.name}");
         }
+    }
+
+    public void ChangeMaterialToUnexpected()
+    {
+        renderer.material = GameController.unexpectedMaterial;
+    }
+
+    public void ChangeMaterialToNormal()
+    {
+        renderer.material = mainMaterial;
     }
 
     void Update()

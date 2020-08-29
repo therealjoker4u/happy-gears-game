@@ -49,6 +49,9 @@ public class GearAction : MonoBehaviour
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
             canEmitCollision = false;
+            Vector3 upPos = transform.position;
+            upPos.y += 0.02f;
+            transform.position = upPos;
 
         }
     }
@@ -65,6 +68,9 @@ public class GearAction : MonoBehaviour
             GameController.UpdateActions();
 
             canEmitCollision = true;
+            Vector3 downPos = transform.position;
+            downPos.y -= 0.02f;
+            transform.position = downPos;
         }
     }
 
@@ -113,7 +119,7 @@ public class GearAction : MonoBehaviour
         renderer.material = mainMaterial;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (isDragging)
         {
@@ -127,5 +133,11 @@ public class GearAction : MonoBehaviour
         {
             transform.RotateAround(transform.position, Vector3.up, Time.deltaTime * rotationSpeed * rotationMultiplier);
         }
+
+        Vector3 boundedPos = transform.position;
+        boundedPos.x = Mathf.Clamp(boundedPos.x, -GameController.screenBounds.x, GameController.screenBounds.x);
+        boundedPos.z = Mathf.Clamp(boundedPos.z, -GameController.screenBounds.z, GameController.screenBounds.z);
+        transform.position = boundedPos;
+
     }
 }

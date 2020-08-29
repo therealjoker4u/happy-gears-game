@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public struct Relationship
@@ -27,6 +25,11 @@ public class GameController : MonoBehaviour
     public static bool canDrag;
     public Material _unexpectedMaterial;
     public static Material unexpectedMaterial ;
+    public GameObject _gearBar;
+    public static GameObject gearBar;
+
+    public static Vector3 screenBounds;
+    public static float boundOffset = 0.25f; 
 
     private void Start()
     {
@@ -35,8 +38,13 @@ public class GameController : MonoBehaviour
         relationships = new List<Relationship>();
         isLocked = false;
         lockedGears = new List<string>();
-        sourceRotationSpeed = 100f;
+        sourceRotationSpeed = 120f;
         canDrag = true;
+
+        if (gearBar == null)
+        {
+            gearBar = _gearBar;
+        }
 
         GameObject[] gears = GameObject.FindGameObjectsWithTag("Gear");
 
@@ -46,6 +54,11 @@ public class GameController : MonoBehaviour
 
             gearActions.Add(gearName, gear.GetComponent<GearAction>());
 
+            /*GameObject bar = Instantiate(gearBar);
+            bar.SetActive(true);
+            bar.transform.position = gear.transform.position;
+            bar.transform.SetParent(gear.transform);*/
+
         }
         UpdateActions();
 
@@ -54,6 +67,9 @@ public class GameController : MonoBehaviour
             unexpectedMaterial = _unexpectedMaterial;
         }
 
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.y));
+        screenBounds.x -= boundOffset;
+        screenBounds.z -= boundOffset;
     }
 
 

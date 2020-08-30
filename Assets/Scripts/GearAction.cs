@@ -49,10 +49,6 @@ public class GearAction : MonoBehaviour
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
             canEmitCollision = false;
-            Vector3 upPos = transform.position;
-            upPos.y += 0.02f;
-            transform.position = upPos;
-
         }
     }
 
@@ -68,9 +64,6 @@ public class GearAction : MonoBehaviour
             GameController.UpdateActions();
 
             canEmitCollision = true;
-            Vector3 downPos = transform.position;
-            downPos.y -= 0.02f;
-            transform.position = downPos;
         }
     }
 

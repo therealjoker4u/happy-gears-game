@@ -14,7 +14,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Gears
   - 
   - 
   - 
@@ -39,6 +39,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 1169724649
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Gears
+    uniqueID: 1219024113
     locked: 0

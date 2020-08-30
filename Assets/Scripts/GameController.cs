@@ -31,6 +31,11 @@ public class GameController : MonoBehaviour
     public static Vector3 screenBounds;
     public static float boundOffset = 0.25f; 
 
+    public void test()
+    {
+        print("This is test for you");
+    }
+
     private void Start()
     {
         globalGearHeight = 0f;
@@ -201,7 +206,8 @@ public class GameController : MonoBehaviour
             else
             {
                 action.rotationSpeed = 0;
-                allGearsAreRotating = false;
+                if(action.isTarget)
+                    allGearsAreRotating = false;
             }
 
             if (lockedGears.Contains(gearName) && !action.isLocked)
@@ -222,7 +228,6 @@ public class GameController : MonoBehaviour
 
         if(lockedGears.Count > 0)
         {
-            print(lockedGears);
             foreach (string gearName in gearActions.Keys)
             {
                 GearAction action = gearActions[gearName];
@@ -263,12 +268,11 @@ public class GameController : MonoBehaviour
     public static void PlayerWon()
     {
         canDrag = false;
-        sourceRotationSpeed *= 1.6f;
 
-        print("You Won!!");
-        UpdateActions();
+        GameEnd.onWin(3);
 
     }
+
 
     private void Update()
     {

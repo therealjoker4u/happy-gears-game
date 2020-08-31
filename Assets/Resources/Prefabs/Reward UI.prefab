@@ -649,7 +649,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Watch an video to get one more gear !!!
+  m_Text: Watch a video to get one more gear !!!
 --- !u!1 &8411144274776665829
 GameObject:
   m_ObjectHideFlags: 0

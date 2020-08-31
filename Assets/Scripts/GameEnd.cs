@@ -104,6 +104,9 @@ public class GameEnd : MonoBehaviour
 
             if (levels.data.ContainsKey(currentLevelName))
             {
+                if (levels.data[currentLevelName].stars > newData.stars)
+                    newData.stars = levels.data[currentLevelName].stars;
+
                 levels.data[currentLevelName] = newData;
             }
             else

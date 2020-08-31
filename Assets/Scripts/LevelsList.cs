@@ -6,7 +6,7 @@ public class LevelsList : MonoBehaviour
 {
 
     public static List<string> levels;
-    private static int numberOfLevels = 30;
+    public static int numberOfLevels = 36;
     public static void init()
     {
         List<string> newList = new List<string>();

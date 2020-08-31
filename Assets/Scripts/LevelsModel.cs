@@ -19,4 +19,8 @@ public class LevelData
 public class LevelsModel
 {
     public Dictionary<string, LevelData> data;
+    public LevelsModel()
+    {
+        data = new Dictionary<string, LevelData>();
+    }
 }

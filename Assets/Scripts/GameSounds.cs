@@ -29,7 +29,7 @@ public class GameSounds : MonoBehaviour
             DontDestroyOnLoad(sourceObj);
             sourceObj.AddComponent<AudioSource>();
             audioSource = sourceObj.GetComponent<AudioSource>();
-
+            audioSource.volume = 0.6f;
         }
     }
 

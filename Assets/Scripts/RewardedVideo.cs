@@ -6,7 +6,7 @@ public class RewardedVideo : MonoBehaviour
 {
     public GameObject extraGear;
     private int gotGears = 0;
-    private int gearsLimit = 2;
+    private int gearsLimit = 5;
     void Start()
     {
         gameObject.SetActive(false);

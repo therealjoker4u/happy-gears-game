@@ -126,14 +126,17 @@ public class GameEnd : MonoBehaviour
     }
     public static IEnumerator _onWin(int stars)
     {
+        MusicController.audioSource.volume = 0.3f ;
         yield return new WaitForSeconds(0.3f);
         MusicController.PlayWinSound();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1f);
+        MusicController.audioSource.volume = 1f;
         instance.winBoard.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-
-        if(!starsGiven)
+        yield return new WaitForSeconds(0.8f);
+        if (!starsGiven)
             instance.StartCoroutine(instance.giveStars(stars));
+
+        
 
     }
     public void nextLevel()

@@ -19,6 +19,7 @@ public class MusicController : MonoBehaviour
             gameActionsSounds.AddComponent<AudioSource>();
             gameActionsSource = gameActionsSounds.GetComponent<AudioSource>();
             gameActionsSource.loop = false;
+            gameActionsSource.volume = 0.6f;
 
         }
 

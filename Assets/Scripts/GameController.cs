@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
     public static GameObject gearBar;
 
     public static Vector3 screenBounds;
-    public static float boundOffset = 0.25f; 
+    public static float boundOffset = 0.25f;
 
     public void test()
     {
@@ -268,8 +268,10 @@ public class GameController : MonoBehaviour
     public static void PlayerWon()
     {
         canDrag = false;
-
-        GameEnd.onWin(3);
+        int stars = 3 - RewardedVideo.gotGears;
+        if (stars < 1)
+            stars = 0;
+        GameEnd.onWin(stars);
 
     }
 

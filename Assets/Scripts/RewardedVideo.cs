@@ -5,12 +5,13 @@ using UnityEngine;
 public class RewardedVideo : MonoBehaviour
 {
     public GameObject extraGear;
-    private int gotGears = 0;
+    public static int gotGears = 0;
     private int gearsLimit = 5;
     void Start()
     {
         gameObject.SetActive(false);
         extraGear.SetActive(false);
+        gotGears = 0;
     }
 
     public void OpenMenu()

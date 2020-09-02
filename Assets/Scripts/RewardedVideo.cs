@@ -7,6 +7,7 @@ public class RewardedVideo : MonoBehaviour
     public GameObject extraGear;
     public static int gotGears = 0;
     private int gearsLimit = 5;
+    public static string zoneId = "5f4fd90ad4366c0001e28aec";
     void Start()
     {
         gameObject.SetActive(false);

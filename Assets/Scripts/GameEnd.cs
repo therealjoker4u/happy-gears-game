@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using System.IO;
+using TapsellSDK;
 
 public class GameEnd : MonoBehaviour
 {
@@ -18,7 +18,27 @@ public class GameEnd : MonoBehaviour
 
     private static bool starsGiven;
     public static string dbPath;
+    private string adZoneId = "5f501aa8d4366c0001e28af7";
+    private TapsellAd levelAd;
+    private static float lastAdShowing = 0;
 
+    private void Start()
+    {
+        string currentLevel = SceneManager.GetActiveScene().name;
+        if (currentLevel != "Level 01" && currentLevel != "Level 02" && currentLevel != "Level 03" && currentLevel != "Level 04")
+        {
+            Tapsell.RequestAd(adZoneId, false,
+                (TapsellAd ad) => {
+                    levelAd = ad;
+                },
+                (string notAvailable) => { },
+                (TapsellError error) => { },
+                (string networkError) => { },
+                (TapsellAd expired) => { }
+            );
+        }
+        
+    }
 
     void Awake()
     {
@@ -65,6 +85,12 @@ public class GameEnd : MonoBehaviour
             star3Clone.SetActive(true);
             GameSounds.PlayOneShot("star");
             yield return new WaitForSeconds(0.3f);
+        }
+        float deltaTimeAd = Time.time - lastAdShowing;
+        if(levelAd != null && (lastAdShowing == 0 || deltaTimeAd >= 120) )
+        {
+            Tapsell.ShowAd(levelAd);
+            lastAdShowing = Time.time;
         }
 
     }

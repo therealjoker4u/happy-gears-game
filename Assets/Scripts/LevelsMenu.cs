@@ -87,23 +87,17 @@ public class LevelsMenu : MonoBehaviour
 
     private void CheckLevels()
     {
-        /*if(levels.data.Count < 1)
+        if(levels.data.Count < 1)
         {
             SceneManager.LoadScene(LevelsList.levels[0]);
             return;
-        }*/
+        }
 
         if (!changedPage)
         {
-            int latestPassedLevel = 1;
-
-            foreach (string levelName in levels.data.Keys)
-            {
-                LevelData level = levels.data[levelName];
-
-                latestPassedLevel++;
-            }
-            currentPage = Mathf.FloorToInt(latestPassedLevel / levelsPerPage);
+            currentPage = (float) Math.Floor( (double) levels.data.Count / levelsPerPage );
+            if (currentPage >= maxPages)
+                currentPage = 0;
         }
             
 
@@ -176,7 +170,7 @@ public class LevelsMenu : MonoBehaviour
                     previousIsUnlocked = true;
                     btn.GetComponent<LevelBtnItem>().isLocked = false;
                 }
-                else if ( (!nextLevelUnlock && previousIsUnlocked) || i ==0)
+                else if ( (!nextLevelUnlock && previousIsUnlocked) || i ==0 || ((i+1) == levels.data.Count) )
                 {
                     Destroy(lockImg.gameObject);
                     tile.sprite = activeTile;

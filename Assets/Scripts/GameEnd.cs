@@ -67,11 +67,13 @@ public class GameEnd : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
-
+    }
+    public static void SaveLevel(int starsCount)
+    {
         try
         {
             /// Opening db file
-            FileStream file ;
+            FileStream file;
 
             if (File.Exists(dbPath))
             {
@@ -117,11 +119,11 @@ public class GameEnd : MonoBehaviour
             file = File.OpenWrite(dbPath);
             bf.Serialize(file, levels);
             file.Close();
-        }catch(Exception e)
+        }
+        catch (Exception e)
         {
             Debug.LogWarning(e);
         }
-
     }
     public static void onWin(int stars)
     {
@@ -129,6 +131,7 @@ public class GameEnd : MonoBehaviour
     }
     public static IEnumerator _onWin(int stars)
     {
+        SaveLevel(stars);
         MusicController.audioSource.volume = 0.3f ;
         yield return new WaitForSeconds(0.3f);
         MusicController.PlayWinSound();
